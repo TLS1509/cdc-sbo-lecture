@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learning App SBO — cahiers 01, 01bis, 01ter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --encre:#252B37; --doux:#5c6574; --filet:#DCEBEF; --teal:#007A90; --fond:#FBFAF8; --rail:#F2F7F8; --papier:#fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#f4f1ea; color:var(--encre); font:16px/1.5 Nunito, sans-serif; }
+  header.barre { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--filet); padding:14px 22px 10px; }
+  header.barre p { margin:0 0 10px; color:var(--doux); font-size:13px; }
+  .pills { display:flex; flex-wrap:wrap; gap:8px; }
+  button.pill { border:1px solid var(--filet); background:#fff; color:var(--encre); font:700 14px/1 Nunito, sans-serif; padding:8px 12px; border-radius:999px; cursor:pointer; }
+  button.pill.on { background:var(--teal); color:#fff; border-color:var(--teal); }
+  main { max-width:1100px; margin:0 auto; padding:22px; }
+  h1,h2,h3 { font-family:"League Spartan", sans-serif; letter-spacing:-.03em; margin:0 0 8px; }
+  h1 { font-size:32px; } h2 { font-size:22px; margin-top:22px; } h3 { font-size:17px; margin-top:16px; }
+  p { margin:0 0 10px; } .muted { color:var(--doux); font-size:14px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+  .stat { background:#fff; border:1px solid var(--filet); border-radius:14px; padding:10px 14px; min-width:120px; }
+  .stat b { display:block; font-family:"League Spartan", sans-serif; font-size:22px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .card { background:#fff; border:1px solid var(--filet); border-radius:16px; padding:14px; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--filet); border-radius:12px; overflow:hidden; font-size:14px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--filet); vertical-align:top; }
+  th { background:var(--rail); font-size:12px; }
+  details { background:#fff; border:1px solid var(--filet); border-radius:12px; padding:8px 12px; margin:8px 0; }
+  summary { cursor:pointer; font-weight:700; }
+  ul { margin:8px 0 0; padding-left:18px; }
+  .panneau { display:none; } .panneau.on { display:block; }
+  .coque { display:flex; min-height:640px; background:var(--fond); border:1px solid var(--filet); border-radius:16px; overflow:hidden; color:var(--encre); }
+  .rail { width:180px; flex:none; background:var(--rail); padding:14px 8px; display:flex; flex-direction:column; gap:6px; }
+  .rail .logo { width:28px; height:28px; margin:0 8px 8px; position:relative; }
+  .rail .logo i { position:absolute; border-radius:99px; }
+  .rail button, .rail span { display:block; width:100%; text-align:left; border:0; background:transparent; padding:8px 10px; border-radius:12px; font:700 13px/1.2 Nunito, sans-serif; color:var(--encre); }
+  .rail .qui { margin-top:auto; background:#fff; border-radius:14px; padding:10px; }
+  .scene { flex:1; padding:18px; min-width:0; }
+  .hero { background:var(--teal); color:#fff; border-radius:20px; padding:20px 22px; }
+  .onglets { display:flex; gap:6px; flex-wrap:wrap; margin:12px 0; }
+  .onglets button { border:1px solid var(--filet); background:#fff; border-radius:999px; padding:8px 12px; font:700 13px Nunito, sans-serif; cursor:pointer; }
+  .onglets button.on { background:var(--teal); color:#fff; border-color:var(--teal); }
+  .carte { display:flex; gap:12px; align-items:center; background:#fff; border:1px solid var(--filet); border-radius:16px; padding:12px; margin:8px 0; width:100%; text-align:left; cursor:pointer; color:inherit; font:inherit; }
+  .vignette { width:72px; height:56px; border-radius:12px; background:#E8F4F7; flex:none; }
+  .note { background:#fff7e8; border-radius:12px; padding:10px 12px; margin:8px 0; }
+  .modale { position:relative; min-height:480px; }
+  .voile { opacity:.35; }
+  .boite { position:absolute; inset:28px; background:#fff; border:1px solid var(--filet); border-radius:20px; padding:18px; display:flex; flex-direction:column; gap:10px; }
+  .niveaux { display:flex; flex-wrap:wrap; gap:8px; }
+  .niveaux button, .actions button { border:0; border-radius:999px; padding:8px 12px; font:700 13px Nunito, sans-serif; cursor:pointer; background:#E8F4F7; color:#036273; }
+  .niveaux button.on, .solid { background:var(--teal) !important; color:#fff !important; border-radius:10px !important; }
+  .lock { color:var(--doux); }
+  @media (max-width:800px) { .grid2, .grid3 { grid-template-columns:1fr; } .rail { display:none; } }
+</style>
+</head>
+<body>
+<header class="barre">
+  <p>Lecture hors Cursor · 11 novembre 2026 · à partager avec Chloé. Le document de travail reste dans Cursor.</p>
+  <div class="pills" id="haut"></div>
+  <div class="pills" id="sous" style="margin-top:8px"></div>
+</header>
+<main id="vue"></main>
+<script>
+const HAUT = [
+  ["presentation","Présentation"],
+  ["decisions","Décisions"],
+  ["parcours","01 Parcours"],
+  ["items","01bis Items"],
+  ["veille","01ter Veille"]
+];
+const SOUS = [["cahier","Cahier des charges"],["journeys","User journeys"],["protocole","Protocole"],["bo","Back-office"],["maquette","Maquette"]];
+const etat = { haut:"presentation", sous:"cahier", ongletFil:"tous", noteFil:"", noteListe:"", rang:0, choix:"", issue:"", ongletParcours:"programme", noteParcours:"" };
+
+function rail(actif) {
+  const items = ["Tableau de bord","Mes parcours","Bibliothèque","Journal de bord","Coaching","Veille"];
+  return `<aside class="rail"><div class="logo"><i style="width:12px;height:12px;background:#55A1B4;left:2px;top:8px"></i><i style="width:8px;height:8px;background:#F8B044;right:2px;top:2px"></i><i style="width:7px;height:7px;background:#007A90;right:4px;bottom:3px"></i></div>${items.map(n => `<span style="background:${n===actif?"#fff":"transparent"}">${n}</span>`).join("")}<div class="qui"><b>Chloé Martin</b><div class="muted">Apprenante</div></div></aside>`;
+}
+
+const pages = {
+  presentation: () => `<h1>Learning App SBO</h1>
+    <p class="muted">Plateforme de formation pour une organisation fondée sur les compétences. Un seul go-live, quand le package est prêt.</p>
+    <div class="stats"><div class="stat"><b>18</b>Cahiers au go-live</div><div class="stat"><b>6</b>Rôles</div><div class="stat"><b>3</b>Cahiers ouverts ici</div><div class="stat"><b>4</b>Décisions du 11 novembre</div></div>
+    <div class="grid2"><div><h2>Le projet</h2><p>L'apprenant suit des parcours, pioche dans une bibliothèque, lit une veille, tient un passeport de compétences, réserve du coaching et écrit dans son journal. L'entreprise gère ses gens, ses équipes et ses crédits. Le coach suit les personnes qui lui sont assignées.</p><p>Le front est l'application React. Le back-office est WordPress, réservé à une seule personne. Le go-live emporte les cahiers 1 à 14, y compris les bis. Les cahiers 15 à 20 restent après le lancement.</p><p>Trois cahiers sont ouverts ici. Le 01 décrit le parcours et ses leçons. Le 01bis décrit les dix types du Learning Space. Le 01ter décrit les cinq formats de veille.</p></div>
+    <div><h2>Comment lire</h2><p>La rangée du haut change de grand morceau. Dans un cahier : cahier des charges, user journeys, protocole, back-office, maquette.</p><p>Le back-office est écrit. Il n'a pas d'écran. La maquette est le prototype des écrans du front.</p><p>Ce document est la source de vérité des cahiers retravaillés. Les fichiers d'origine ne sont pas réécrits.</p></div></div>
+    <h2>Les rôles</h2>
+    <table><tr><th>Prénom</th><th>Rôle</th><th>Où</th><th>Dans les cahiers ouverts</th></tr>
+    <tr><td>Camille Rousseau</td><td>Super-Admin</td><td>Back-office</td><td>Crée les parcours, les items et la veille. Approuve les articles sourcés.</td></tr>
+    <tr><td>Inès Morel</td><td>Company Manager</td><td>Front</td><td>Hors de ces trois cahiers. Elle gère la société.</td></tr>
+    <tr><td>Marc Dupont</td><td>Manager d'équipe</td><td>Front</td><td>Hors de ces trois cahiers. Il suit son équipe.</td></tr>
+    <tr><td>Léa Bernard</td><td>Coach</td><td>Front</td><td>Suit, recommande de la veille, coache. Elle ne crée ni parcours ni item.</td></tr>
+    <tr><td>Chloé Martin</td><td>Apprenante entreprise</td><td>Front</td><td>Ouvre un parcours, lit un item, lit la veille, ouvre l'aide d'une mission.</td></tr>
+    <tr><td>Prénom non fixé</td><td>Apprenant individuel</td><td>Front</td><td>Même lecture que Chloé, sans société.</td></tr></table>
+    <p class="muted">Vincent Aubert est l'expert du parcours Notion montré dans le produit. Il n'est pas un rôle de la plateforme.</p>`,
+  decisions: () => `<h2>Décisions du 11 novembre 2026</h2><p class="muted">Elles priment sur les fichiers d'origine quand ceux-ci disent encore le contraire.</p>
+    <div class="grid2">
+      <div class="card"><h3>1. Dix types, et la leçon à part</h3><p>Le Learning Space compte dix types. La leçon n'en fait pas partie : elle appartient au parcours. Le décompte 6, 9 ou 11 est périmé. Le micro-learning n'est pas un type.</p></div>
+      <div class="card"><h3>2. Aide de mission</h3><p>Le panneau Ressources d'aide reste. Camille y attache au moins un item déjà publié. Chloé l'ouvre depuis la mission et y revient. Ce n'est pas un douzième type.</p></div>
+      <div class="card"><h3>3. Camille seule crée</h3><p>Seul le Super-Admin crée les parcours et les items, dans le back-office. Léa suit, recommande de la veille et coache. Elle n'a pas de back-office.</p></div>
+      <div class="card"><h3>4. Positionnement</h3><p>Ce cahier ne pose que la modale Dreyfus au premier accès à un parcours. Valider ou Passer, pas de croix, une seule fois. L'onboarding à l'inscription est le cahier 3.</p></div>
+    </div>
+    <div class="card" style="margin-top:12px"><b>Hors de ces trois cahiers.</b> La recommandation d'un item par l'IA est post-lancement.</div>
+    <h2>Carte des catalogues</h2><p>Camille produit les parcours et leurs leçons, les 10 types et la veille. Léa ne fait qu'une recommandation. Les trois chemins arrivent chez Chloé sans se mélanger.</p>`,
+};
+
+function blocParcours(sous) {
+  if (sous === "cahier") return `<p>Un parcours est une suite d'étapes. Chaque étape aligne des leçons principales, numérotées, et des complémentaires sans numéro. Les complémentaires comptent pour finir l'étape. Ce sont des items du Learning Space. La leçon, elle, reste dans ce cahier.</p>
+    <div class="grid3"><div class="card"><h3>Strict</h3><p>La leçon suivante et l'étape suivante restent fermées tant que ce qui précède n'est pas complet.</p></div><div class="card"><h3>Souple</h3><p>L'étape suivante s'ouvre avant que l'étape en cours soit finie.</p></div><div class="card"><h3>Libre</h3><p>Toutes les leçons et toutes les étapes sont ouvertes.</p></div></div>
+    <h3>Première entrée</h3><p>Au premier Commencer, une question de niveau apparaît pour chaque compétence. Valider écrit les niveaux. Passer n'écrit rien. Pas de croix. Une seule fois. Sans compétence, pas de modale.</p>
+    <h3>Leçon</h3><p>Elle n'est pas un item du Learning Space. Écrans : Engagement, Découvrir, Quiz, Réfléchir, Application, Transfert. Engagement, Découvrir et Réfléchir sont obligatoires. L'application vide n'affiche pas de zone vide. Sept questions au back-office, trois tirées au sort. Trois sur trois ouvrent la réflexion. Découvrir n'a pas de vidéo.</p>
+    <h3>Visibilité</h3><p>Liste filtrée par les paliers cochés. Adresse directe d'un autre palier : réserve et changement de plan. Compte gratuit si Camille le marque. Attribution à des personnes nommées, qui ouvrent même hors palier. Portée globale ou limitée à une entreprise. Prérequis visible, le clic explique le manque. Un cycle est refusé.</p>`;
+  if (sous === "journeys") return `<h3>Découvrir et se positionner</h3><p>Menu ou lien, liste filtrée, Commencer. S'il y a des compétences : modale, Valider ou Passer, puis la vue, puis la leçon 1. S'il n'y en a pas : ouverture directe.</p><h3>Camille construit</h3><p>Titre, durée, niveau, portée, règle, étapes, leçons, compléments, prérequis. Sans étape ou sans leçon, publication refusée. Ensuite les abonnements.</p><h3>Leçon</h3><p>Engagement, Découvrir, quiz. Moins de 3 sur 3 : nouvelle pioche. Puis Réfléchir, copie possible dans le journal, Application si elle est remplie, Transfert.</p>`;
+  if (sous === "protocole") return `<p class="muted">Cas 1 à 3 avec Chloé. Cas 5 et 7 avec Camille. Cas 6 : chaque restriction. Cas 7 : la leçon.</p>
+    ${details("1. Liste", ["Bon abonnement : liste, six par page, pas commencé, en cours ou terminé.","Autre palier absent.","Adresse directe : réserve et changement de plan."])}
+    ${details("2. Première entrée", ["Autant de questions que de compétences.","Valider écrit niveaux, date et réponses. Passer n'écrit rien et ouvre.","Pas de croix. La modale ne revient pas.","Zéro compétence : pas de modale, avertissement au back-office.","Hors ligne : message de connexion, pas de modale."])}
+    ${details("3. Avancer", ["Strict : leçon 2 et étape 2 fermées tant que le précédent n'est pas complet, complémentaires compris.","Souple : étape suivante avant 100 %. Libre : tout ouvert.","Prérequis non tenu : carte visible, clic explicatif.","Marquer comme fait enregistre la personne, l'item et l'heure."])}
+    ${details("5. Édition", ["Camille seule. Léa n'a pas le menu.","Publication refusée sans étape ou sans leçon.","Zéro compétence : avertissement, publication possible.","Republier garde la progression. Changer le palier laisse les inscrits dans leur accès."])}
+    ${details("6. Restrictions", ["Paliers cochés un par un, même un palier supérieur non coché ne voit pas.","Mauvais palier : absent, adresse = réserve.","Portée entreprise : seulement cette entreprise. L'individuel ne voit pas. Portée globale : il voit, au bon palier.","Compte gratuit seulement si marqué. Le marquage n'enlève rien aux paliers cochés.","Attribution : la personne nommée ouvre même hors palier. Retrait avant démarrage ferme. Après, l'accès et l'avancement restent.","Brouillon et dépublié : adresse fermée. La progression reparaît si Camille republie."])}
+    ${details("7. Leçon", ["S'ouvre depuis la présentation. Absente de la bibliothèque.","Publication bloquée si Engagement, Découvrir ou Réfléchir manque, ou si le quiz n'a pas 7 questions.","3 questions tirées au sort, 3 sur 3 pour Réfléchir. Nouvelle pioche après un échec.","Sans Application, pas de zone vide."])}`;
+  if (sous === "bo") return `<p>Camille est la seule à voir le menu Parcours. L'écran n'est pas maquetté.</p><table><tr><th>Règle</th><th>Effet</th></tr>
+    <tr><td>Champs</td><td>Titre, durée, niveau, image, portée globale ou entreprise, strict, souple ou libre.</td></tr>
+    <tr><td>Leçon</td><td>Sept questions, trois montrées. Application facultative. Pas un item de bibliothèque.</td></tr>
+    <tr><td>Abonnements</td><td>Paliers cochés, et marquage compte gratuit. Les inscrits gardent l'accès.</td></tr>
+    <tr><td>Attribution</td><td>Personnes nommées. Hors palier, hors gratuit, hors portée.</td></tr></table>`;
+  return maquetteParcours();
+}
+
+function details(titre, lignes) { return `<details open><summary>${titre}</summary><ul>${lignes.map(l => `<li>${l}</li>`).join("")}</ul></details>`; }
+
+function maquetteParcours() {
+  const ecran = etat.ecranParcours || "vue";
+  const pagesM = [["liste","Liste des parcours"],["modale","Modale de positionnement"],["vue","Présentation du parcours"],["lecon","Leçon"],["reserve","Parcours hors abonnement"]];
+  const corps = {
+    liste: () => `<div class="coque">${rail("Mes parcours")}<div class="scene"><h1 style="font-size:32px">Mes parcours</h1><p class="muted">Page 1 · six cartes. Trois montrées. Un autre palier n'apparaît pas.</p>${etat.noteListe?`<div class="note">${etat.noteListe}</div>`:""}
+      ${[["IA générative et Notion","31 h 30 · Débutant","Pas commencé","Commencer","Première visite : la modale s'ouvre."],["Relier les vues","4 h · Compétent","En cours","Reprendre","Déjà ouvert : pas de modale."],["Le schéma d'équipe","6 h · Performant","Terminé","Voir","Terminé. La présentation s'ouvre."]].map(c => `<div class="carte"><div class="vignette"></div><div style="flex:1"><b>${c[0]}</b><div class="muted">${c[1]} · ${c[2]}</div></div><button class="solid" data-note="${c[4]}">${c[3]}</button></div>`).join("")}</div></div>`,
+    modale: () => { const q = ["Choisir le bon objet","Relier une vue à sa base"]; const n = ["Novice","Avancé débutant","Compétent","Performant","Expert"]; return `<div class="coque">${rail("Mes parcours")}<div class="scene"><div class="modale"><div class="voile"><h1>Mes parcours</h1><div class="card">IA générative et Notion</div></div><div class="boite"><div class="muted">Question ${etat.rang+1} sur 2</div><h2>${q[etat.rang]}</h2><p>Où en es-tu ? Pas de croix.</p><div class="niveaux">${n.map(x => `<button data-choix="${x}" class="${etat.choix===x?"on":""}">${x}</button>`).join("")}</div>${etat.issue?`<div class="note">${etat.issue}</div>`:""}<div class="actions"><button class="solid" data-issue="Les niveaux, la date et les réponses sont écrits sur la fiche.">Valider</button><button data-issue="Rien n'est enregistré. Le parcours s'ouvre quand même.">Passer</button>${etat.rang<1?`<button data-suite="1">Question suivante</button>`:""}</div></div></div></div></div>`; },
+    vue: () => `<div class="coque">${rail("Mes parcours")}<div class="scene"><div class="hero"><div class="muted" style="color:#d7eef3">Outils</div><h1 style="color:#fff">IA générative et Notion</h1><p>Structurer l'espace de travail, puis y faire travailler l'IA.</p><div style="display:flex;gap:14px;font-weight:700"><span>32 leçons</span><span>31 h 30</span><span>Débutant</span></div><button class="solid" data-note-p="La leçon s'ouvre sur sa page. Elle n'est pas un item du Learning Space." style="margin-top:12px">Commencer la leçon</button></div>
+      <div class="onglets">${["programme","Programme","ressources","Ressources","badge","Open badge"].reduce((a,x,i,arr)=> i%2? a : a.concat([[x, arr[i+1]]]), []).map(([id,label]) => `<button data-op="${id}" class="${etat.ongletParcours===id?"on":""}">${label}</button>`).join("")}</div>
+      ${etat.noteParcours?`<div class="note">${etat.noteParcours}</div>`:""}
+      ${etat.ongletParcours==="programme"?`<div class="card"><h3>Module 1 · Fondamentaux</h3><div class="carte" data-note-p="La leçon s'ouvre sur sa page."><span style="width:26px;height:26px;border-radius:99px;background:#E8F4F7;color:var(--teal);display:grid;place-items:center">1</span><b>S1.1 Ouvrir l'espace</b></div><div class="carte lock"><span>2</span><b>S1.2 Verrouillée</b><span class="muted">La leçon 1 n'est pas terminée.</span></div></div>`:""}
+      ${etat.ongletParcours==="ressources"?`<div class="card"><h3>Pas encore de ressource liée</h3><p class="muted">Les fiches du Learning Space liées à ce parcours apparaîtront ici.</p></div>`:""}
+      ${etat.ongletParcours==="badge"?`<div class="card"><h3>Ce parcours n'a pas encore d'Open badge</h3><p class="muted">L'Open badge validé apparaîtra ici.</p></div>`:""}
+      <aside class="card" style="margin-top:12px"><b>Coaching</b><p class="muted">Léa Bernard suit ce parcours. Elle ne le crée pas.</p></aside></div></div>`,
+    lecon: () => `<div class="card"><h3>Leçon</h3><p>Page pas encore dessinée. Six états : Engagement, Découvrir, Quiz, Réfléchir, Application, Transfert.</p></div>`,
+    reserve: () => `<div class="coque">${rail("Mes parcours")}<div class="scene"><div class="card"><h2>Pilotage avancé</h2><p>Ce parcours n'est pas dans ton abonnement. Il n'apparaît pas dans la liste.</p><button class="solid">Changer de plan</button></div></div></div>`
+  };
+  return `<p class="muted">Chloé · cinq pages. Le verrou et les règles sont des états de la présentation.</p><div class="pills" style="margin-bottom:12px">${pagesM.map(([id,label]) => `<button class="pill ${ecran===id?"on":""}" data-ep="${id}">${label}</button>`).join("")}</div>${corps[ecran]()}`;
+}
+
+function blocItems(sous) {
+  if (sous==="cahier") return `<p>Bibliothèque de dix types, à la demande. La leçon est dans le cahier 01. Un item peut être un complémentaire d'étape. La veille est le 01ter.</p>
+    <table><tr><th>Type</th><th>Ce qui distingue</th></tr>
+    <tr><td>Astuce</td><td>Doublon signalé</td></tr><tr><td>Flashcard</td><td>Au moins deux réponses, une seule bonne</td></tr><tr><td>Ressource</td><td>Lien testé</td></tr><tr><td>Guide</td><td>Au moins deux étapes</td></tr>
+    <tr><td>Vidéo de conception</td><td>Durée et vignette reprises de l'adresse</td></tr><tr><td>Vidéo de geste</td><td>Même fiche, plus la description du geste</td></tr>
+    <tr><td>Masterclass d'item</td><td>Expert, date, lien. Distincte du cahier 8</td></tr><tr><td>Devoir</td><td>Échéance, critères, rappel</td></tr>
+    <tr><td>Mission</td><td>Livrables. Au moins une ressource déjà publiée</td></tr><tr><td>Open badge</td><td>Ancien nom : projet final. Phases et grille</td></tr></table>
+    <h3>Visibilité</h3><p>Paliers, compte gratuit, attribution individuelle. Pas de portée entreprise. Un item ouvert depuis un parcours déjà accessible n'est pas refermé par le filtre. Prérequis : carte visible, clic explicatif.</p>`;
+  if (sous==="journeys") return `<p>Même lecteur depuis la bibliothèque, le parcours ou une adresse. Le bandeau nomme la source. Le retour garde filtre et position. Camille choisit un des dix types, prévisualise, publie. La mission attache des items déjà publiés. Chloé les ouvre et revient à la mission.</p>`;
+  if (sous==="protocole") return `<p class="muted">Retour avec Chloé. Éditeurs et mission avec Camille. Cas 10 : restrictions. La leçon se teste dans le 01.</p>
+    ${details("4. Retour", ["Le bandeau nomme la source. Le retour retrouve filtre et position.","Adresse collée : retour à l'accueil de la bibliothèque."])}
+    ${details("6. Dix éditeurs", ["Léa ne voit pas les formulaires.","Astuce : doublon signalé. Flashcard : une seule bonne réponse. Ressource : lien testé. Guide : deux étapes minimum.","Vidéos : durée et vignette. Masterclass d'item distincte du cahier 8. Devoir : échéance.","Mission : au moins une ressource publiée. Open badge : phases et grille."])}
+    ${details("9. Mission", ["Publication refusée à vide, en doublon, ou si l'item est archivé.","Chloé ouvre l'item et revient à la mission."])}
+    ${details("10. Restrictions", ["Paliers un par un. Compte gratuit si marqué. Attribution nommée.","Depuis un parcours déjà ouvert, l'item s'ouvre.","Pas de portée entreprise. Brouillon et archivé : adresse fermée. La lecture déjà faite reste.","Prérequis non tenu : carte marquée, le clic explique."])}`;
+  if (sous==="bo") return `<p>Camille seule. Pas d'écran dessiné.</p><p>Création des dix types, paliers, compte gratuit, attribution, mission, Open badge, archivage sans effacer les lectures.</p>`;
+  const pagesM = ["Bibliothèque","Item hors abonnement","Astuce","Flashcard","Ressource","Guide","Vidéo de conception","Vidéo de geste","Masterclass d'item","Devoir","Mission","Open badge"];
+  return `<p class="muted">Douze pages, une par item. Pas encore dessinées. Le bandeau de retour est le même sur chaque lecteur.</p><ul>${pagesM.map(p => `<li>${p}</li>`).join("")}</ul>`;
+}
+
+function blocVeille(sous) {
+  if (sous==="cahier") return `<p>Fil à part des dix types et des leçons. Camille publie et approuve. Léa recommande depuis le front.</p>
+    <h3>Lecture</h3><p>Le plus récent d'abord. Onglets : Tous, Dossier, Mag du mois, Tutoriel, Actualité, Article sourcé. Marquer lu et sauvegarder sont deux gestes. Le retour retrouve l'onglet.</p>
+    <h3>Les cinq formats</h3><table><tr><th>Format</th><th>Ce qui distingue</th></tr>
+    <tr><td>Dossier</td><td>Éditorial, articles dans l'ordre de Camille, source de la rédaction.</td></tr>
+    <tr><td>Mag du mois</td><td>Même lecture, rythme mensuel.</td></tr>
+    <tr><td>Tutoriel vidéo</td><td>Lecteur. Pas une vidéo du Learning Space.</td></tr>
+    <tr><td>Actualité</td><td>Même lecture, rythme de la semaine.</td></tr>
+    <tr><td>Article sourcé</td><td>Hors du fil tant que Camille n'a pas approuvé. Un rejet le garde, avec le motif.</td></tr></table>
+    <h3>Visibilité</h3><p>Mêmes restrictions qu'un item : paliers, compte gratuit, attribution. Pas de portée entreprise.</p>`;
+  if (sous==="journeys") return `<p>La rédaction entre dans le fil. L'article sourcé passe par la file de Camille. Chloé filtre par onglet, lit, marque lu ou sauvegarde. Léa envoie une phrase et une date facultative. Chloé la retrouve sur le contenu.</p>`;
+  if (sous==="protocole") return `${details("1. Fil", ["Pas d'item du Learning Space, pas de leçon.","Onglets de format. Tous montre tout. Un onglet ne montre que son format.","Lien externe mort : message, le texte reste lisible.","Le retour retrouve l'onglet."])}
+    ${details("2. Approbation", ["Camille publie dossier, mag, tutoriel, actualité. Léa ne voit pas ces écrans.","Article sourcé : approuver, rejeter avec motif, ou retaguer. Le rejeté est archivé.","Risque de droits : avertissement. Camille peut approuver si la source est nommée."])}
+    ${details("3. Recommandation", ["Léa, depuis le front : personnes, phrase, date facultative.","Sans personne ou sans phrase, envoi refusé.","La trace dit lu ou ignoré."])}
+    ${details("4. Restrictions", ["Paliers, compte gratuit, attribution, comme un item.","Pas de portée entreprise.","Brouillon, non approuvé, rejeté : absents. L'adresse n'ouvre pas."])}`;
+  if (sous==="bo") return `<p>Camille seule pour la rédaction et la file. Léa recommande dans le front.</p>`;
+  return maquetteVeille();
+}
+
+function maquetteVeille() {
+  const cartes = [
+    ["dossier","Dossier","Briefs qui échouent","Rédaction · 14 min"],
+    ["mag","Mag du mois","Mag de novembre","Rédaction · 11 min"],
+    ["tutoriel","Tutoriel","Filtrer une vue sans copier la base","Rédaction · 7 min"],
+    ["actu","Actualité","La propriété « personne » change","Rédaction · 4 min"],
+    ["source","Article sourcé","Un schéma d'information tient en une page","Approuvé · 9 min"]
+  ];
+  const onglets = [["tous","Tous"],["dossier","Dossier"],["mag","Mag du mois"],["tutoriel","Tutoriel"],["actu","Actualité"],["source","Article sourcé"]];
+  const visibles = etat.ongletFil==="tous" ? cartes : cartes.filter(c => c[0]===etat.ongletFil);
+  const fil = `<div class="coque">${rail("Veille")}<div class="scene"><h1>Veille</h1><p class="muted">Le plus récent d'abord. Un item du Learning Space n'apparaît pas.</p>
+    <div class="onglets">${onglets.map(([id,label]) => `<button data-of="${id}" class="${etat.ongletFil===id?"on":""}">${label}</button>`).join("")}</div>
+    ${etat.noteFil?`<div class="note">${etat.noteFil}</div>`:""}
+    ${visibles.map(c => `<button class="carte" data-of-note="${c[1]} · la lecture s'ouvre, le retour revient sur cet onglet."><div class="vignette"></div><div><div style="color:var(--teal);font-weight:700;font-size:12px">${c[1]}</div><b>${c[2]}</b><div class="muted">${c[3]}</div></div></button>`).join("")}
+    </div></div>`;
+  const ecran = etat.ecranVeille || "fil";
+  const menu = [["fil","Fil"],["dossier","Dossier"],["mag","Mag du mois"],["tutoriel","Tutoriel vidéo"],["actu","Actualité"],["source","Article sourcé"],["reco","Recommandation de Léa"],["reserve","Contenu hors abonnement"]];
+  const autre = ecran==="fil" ? fil : `<div class="card"><h3>${menu.find(m => m[0]===ecran)[1]}</h3><p>Page listée, pas encore dessinée. Le fil, lui, est cliquable.</p></div>`;
+  return `<div class="pills" style="margin-bottom:12px">${menu.map(([id,label]) => `<button class="pill ${ecran===id?"on":""}" data-ev="${id}">${label}</button>`).join("")}</div>${autre}`;
+}
+
+function rendu() {
+  document.getElementById("haut").innerHTML = HAUT.map(([id,label]) => `<button class="pill ${etat.haut===id?"on":""}" data-haut="${id}">${label}</button>`).join("");
+  const avecSous = etat.haut==="parcours" || etat.haut==="items" || etat.haut==="veille";
+  document.getElementById("sous").style.display = avecSous ? "flex" : "none";
+  document.getElementById("sous").innerHTML = SOUS.map(([id,label]) => `<button class="pill ${etat.sous===id?"on":""}" data-sous="${id}">${label}</button>`).join("");
+  let html = "";
+  if (etat.haut==="presentation") html = pages.presentation();
+  else if (etat.haut==="decisions") html = pages.decisions();
+  else if (etat.haut==="parcours") html = blocParcours(etat.sous);
+  else if (etat.haut==="items") html = blocItems(etat.sous);
+  else html = blocVeille(etat.sous);
+  document.getElementById("vue").innerHTML = html;
+}
+
+document.body.addEventListener("click", (event) => {
+  const t = event.target.closest("[data-haut],[data-sous],[data-ep],[data-ev],[data-of],[data-of-note],[data-note],[data-choix],[data-issue],[data-suite],[data-op],[data-note-p]");
+  if (!t) return;
+  if (t.dataset.haut) { etat.haut = t.dataset.haut; etat.sous = "cahier"; }
+  if (t.dataset.sous) etat.sous = t.dataset.sous;
+  if (t.dataset.ep) etat.ecranParcours = t.dataset.ep;
+  if (t.dataset.ev) etat.ecranVeille = t.dataset.ev;
+  if (t.dataset.of) { etat.ongletFil = t.dataset.of; etat.noteFil = ""; }
+  if (t.dataset.ofNote) etat.noteFil = t.dataset.ofNote;
+  if (t.dataset.note) etat.noteListe = t.dataset.note;
+  if (t.dataset.choix) etat.choix = t.dataset.choix;
+  if (t.dataset.issue) etat.issue = t.dataset.issue;
+  if (t.dataset.suite) { etat.rang = 1; etat.choix = ""; }
+  if (t.dataset.op) etat.ongletParcours = t.dataset.op;
+  if (t.dataset.noteP) etat.noteParcours = t.dataset.noteP;
+  rendu();
+});
+rendu();
+</script>
+</body>
+</html>
